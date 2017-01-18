@@ -1,7 +1,13 @@
 body {
   padding: 80px;
+  font-size: 18px;
 }
 
 [v-cloak] {
   display: none
+}
+
+textarea {
+  width: 100%;
+  height: 500px;
 }

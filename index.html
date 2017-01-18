@@ -10,12 +10,14 @@
   <link rel='stylesheet' href='css/styles.css'>
   <body>
     <h4>WaveTable Synth</h4>
-    <hr/>
+
     <div id='app'>
+      <hr/>
       <button v-on:click='onPlayButton'>
         <span v-if='isPlaying'>Stop</span>
         <span v-else>Play</span>
       </button>
+
       <hr/>
       <input
         id='pitch-slider'
@@ -25,9 +27,29 @@
         step='1'
         v-model='pitch'
         v-on:input='onPitchChange'/>
-        <label for='pitch-slider'>Pitch {{ expoPitch | numberCommas}} </label>
+      <label for='pitch-slider'>Pitch {{ expoPitch | numberCommas}} </label>
+
+      <hr/>
+      <input
+        id='volume-slider'
+        type='range'
+        min='0'
+        max='1'
+        step='.01'
+        v-on:input='onVolumeChange'/>
+      <label for='volume-slider'>Volume</label>
+
+      <hr/>
+      <label for='wavetable-values'>WaveTable Values</label><br/>
+      <textarea
+        id='wavetable-values'
+        :value='waveDataNewlineText'
+        v-on:change='onWaveDataChange'>
+      </textarea>
+
     </div>
 
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js'></script>
     <script src='https://unpkg.com/vue/dist/vue.js'></script>
     <script src='js/main.js'></script>
   </body>
