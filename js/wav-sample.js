@@ -13,6 +13,7 @@ Vue.component('wav-sample', {
       id: Math.random(),
       wavSource: null,
       gainNode: null,
+      detune: 0,
     };
   },
   methods: {
@@ -20,6 +21,12 @@ Vue.component('wav-sample', {
     onFileChange,
     onVolumeChange: function(e) {
       this.gainNode.gain.value = e.target.value;
+    },
+    onDetuneChange: function(e) {
+      this.detune = Number(e.target.value);
+      try {
+        this.wavSource.detune.value = Number(this.pitch) + this.detune;
+      } catch(e){console.log('Error setting detune', e);}
     },
   },
   mounted: function() {
@@ -30,7 +37,7 @@ Vue.component('wav-sample', {
   },
   watch: {
     pitch: function (val) {
-      this.wavSource.detune.value = val;
+      this.wavSource.detune.value =  Number(val) + Number(this.detune);
     }
   },
   template: `
@@ -49,6 +56,16 @@ Vue.component('wav-sample', {
         step='.01'
         v-on:input='onVolumeChange'/>
       <label :for='id + "volume"'>Volume</label>
+
+      <input
+        :id='id + "detune"'
+        type='range'
+        min='-12'
+        max='12'
+        step='.01'
+        v-on:input='onDetuneChange'/>
+      <label :for='id + "detune"'>Detune {{ detune }}</label>
+
     </div>
   `,
 });
@@ -74,7 +91,7 @@ function loadFile(vm) {
   vm.wavSource = vm.audioContext.createBufferSource();
   vm.wavSource.disconnect();
 
-  axios.get(`/wavs/${vm.file}`, { responseType: 'arraybuffer' })
+  axios.get(`wavs/${vm.file}`, { responseType: 'arraybuffer' })
     .then(function (response) {
 
       vm.audioContext.decodeAudioData(response.data, function(buffer) {
