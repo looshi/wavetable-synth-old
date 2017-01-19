@@ -1,5 +1,26 @@
 'use strict';
 
+const waveFiles = [
+  'AKWF_R_asym_saw_05.wav',
+  'AKWF_birds_0006.wav',
+  'AKWF_bsaw_0005.wav',
+  'AKWF_c604_0006.wav',
+  'AKWF_cheeze_0001.wav',
+  'AKWF_dbass_0002.wav',
+  'AKWF_eorgan_0001.wav',
+  'AKWF_fmsynth_0050.wav',
+  'AKWF_granular_0001.wav',
+  'AKWF_hvoice_0001.wav',
+  'AKWF_oboe_0001.wav',
+  'AKWF_oscchip_0001.wav',
+  'AKWF_piano_0001.wav',
+  'AKWF_snippet_0001.wav',
+  'AKWF_stereo_0001.wav',
+  'AKWF_symetric_0001.wav',
+  'AKWF_tannerin_0001.wav',
+  'AKWF_violin_0001.wav',
+];
+
 new Vue({
   el: '#app',
   data: {
@@ -10,6 +31,8 @@ new Vue({
     waveTable: null,
     pitch: 10,
     waveData: [0,0.1,.4,.4,1,.9,1,0.5,0.1,0.6,0.5,0.1,0.1,0,0.4,1,1,4,1,0.5],
+    waveFiles,
+    masterPitch: 0,
   },
   created: onCreated,
   methods: {
@@ -62,6 +85,7 @@ function onCreated() {
 
 function playSound(vm) {
   vm.osc.connect(vm.gainNode);
+  console.log('play', vm.osc, vm.osc._hasStarted);
   if(!vm.osc._hasStarted){
     vm.osc.start(0);
     vm.osc._hasStarted = true;
@@ -77,6 +101,4 @@ function updateWaveData(vm) {
   var imag = new Float32Array(real.length);
   vm.waveTable = vm.audioContext.createPeriodicWave(real, imag);
   vm.osc.setPeriodicWave(vm.waveTable);
-  vm.osc.frequency.value = 40;
-  vm.osc._hasStarted = false;
 }

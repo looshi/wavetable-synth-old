@@ -12,13 +12,54 @@
     <h4>WaveTable Synth</h4>
 
     <div id='app'>
+
       <hr/>
+      <h4>Wave Loops</h4>
+      <p>These are just waveforms looped and pitched up or down. Select a file
+        from the dropdown and adjust each volume individually.  The pitch
+        slider affects all the waveform loops together.
+      </p>
+      <input
+        id='master-pitch-slider'
+        type='range'
+        min='-3600'
+        max='3600'
+        step='1'
+        v-model='masterPitch'
+        v-on:input='onPitchChange'/>
+      <label for='master-pitch-slider'>Pitch {{ masterPitch }} </label>
+
+      <wav-sample
+        :files='waveFiles'
+        :pitch='masterPitch'
+        :audio-context='audioContext'>
+      </wav-sample>
+
+      <wav-sample
+        :files='waveFiles'
+        :pitch='masterPitch'
+        :audio-context='audioContext'>
+      </wav-sample>
+
+      <wav-sample
+        :files='waveFiles'
+        :pitch='masterPitch'
+        :audio-context='audioContext'>
+      </wav-sample>
+
+      <hr/>
+      <h4>Periodic Oscillator</h4>
+      <p>This creates a periodic oscillator based on the fourier coefficients
+        shown in the textarea below.  You can change the coefficients while
+        its playing. Enter one number per line, "0 1" should play a sine wave.
+        Once you change the text, click outside the textarea to hear the
+        difference in sound.
+      </p>
       <button v-on:click='onPlayButton'>
         <span v-if='isPlaying'>Stop</span>
         <span v-else>Play</span>
       </button>
 
-      <hr/>
       <input
         id='pitch-slider'
         type='range'
@@ -29,7 +70,6 @@
         v-on:input='onPitchChange'/>
       <label for='pitch-slider'>Pitch {{ expoPitch | numberCommas}} </label>
 
-      <hr/>
       <input
         id='volume-slider'
         type='range'
@@ -40,7 +80,7 @@
       <label for='volume-slider'>Volume</label>
 
       <hr/>
-      <label for='wavetable-values'>WaveTable Values</label><br/>
+      <label for='wavetable-values'>Fourier Coefficents</label><br/>
       <textarea
         id='wavetable-values'
         :value='waveDataNewlineText'
@@ -48,9 +88,10 @@
       </textarea>
 
     </div>
-
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js'></script>
     <script src='https://unpkg.com/vue/dist/vue.js'></script>
+    <script src='js/wav-sample.js'></script>
     <script src='js/main.js'></script>
   </body>
 </html>

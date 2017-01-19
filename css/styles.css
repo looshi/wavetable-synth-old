@@ -11,3 +11,8 @@ textarea {
   width: 100%;
   height: 500px;
 }
+
+.wave-sample {
+  border: 2px solid gray;
+  padding: 12px 24px;
+}
